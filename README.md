@@ -124,7 +124,7 @@ Le rectangle d'une frame dans `atlas.json` (`x,y,w,h`) désigne **uniquement le 
 }
 ```
 
-Cet extrait sert à comprendre les champs et **ne constitue pas un atlas complet généré**. Les vrais exports incluent également les dimensions logiques, le seed, les métadonnées détaillées et toutes les frames. La génération réelle limite le nombre total de frames à 1800 et le budget cumulé des textures d'atlas à 64 Mpx pour éviter des allocations trop importantes. L'export refuse les sprites plus grands que la taille de texture maximale.
+Cet extrait sert à comprendre les champs et **ne constitue pas un atlas complet généré**. Les vrais exports incluent également les dimensions logiques, le seed, les métadonnées détaillées et toutes les frames. La génération réelle limite le nombre de pages PNG à 128, le nombre total de frames à 1800 et le budget cumulé des textures d'atlas à 64 Mpx pour éviter des allocations trop importantes. L'export refuse les sprites plus grands que la taille de texture maximale.
 
 **Intégration NightVenture :** la cible ajoute des métadonnées conformes à la convention du studio, mais le jeu doit encore être adapté pour charger le manifeste et émettre lui-même les événements (collision, pulsation, fin). Aucune hitbox ni aucun comportement de compétence ne sont fabriqués par l'exporteur.
 
@@ -135,7 +135,7 @@ npm test
 npm run verify:release
 ```
 
-Ces commandes exécutent les suites Node du compositeur, de la timeline et de l'exporteur sans dépendance npm. À ce stade, **64 assertions automatisées** sont passées en environnement JavaScript simulé, et le flux UI d'export ZIP a passé un test de simulation. Les tests visuels et end-to-end sur Chromium restent à effectuer.
+Ces commandes exécutent les suites Node du compositeur, de la timeline et de l'exporteur sans dépendance npm. À ce stade, **65 assertions automatisées** sont passées en environnement JavaScript simulé, et le flux UI d'export ZIP a passé un test de simulation. Les tests visuels et end-to-end sur Chromium restent à effectuer.
 
 ## Démarrer
 
