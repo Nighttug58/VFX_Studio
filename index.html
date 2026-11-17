@@ -76,7 +76,7 @@ footer{max-width:1500px;margin:auto;padding:5px 18px 20px;color:#91a0bb;font-siz
 const $=id=>document.getElementById(id), canvas=$('editor'),ctx=canvas.getContext('2d',{willReadFrequently:true});
 const MAX_FRAMES=240,MAX_PIXELS=256*256, STORAGE_KEY='vfx_studio_assets_v1';
 let width=32,height=32,fps=12,frames=[new Uint8ClampedArray(32*32*4)],selected=0,tool='pencil',drawing=false,playing=false,playTimer=null,undo=[],redo=[];
-const assetStore=()=>{try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{return []}};
+const assetStore=()=>{try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');return Array.isArray(saved)?saved:[]}catch{return []}};
 let assets=assetStore();
 function notify(s){$('message').textContent=s}
 function snapshot(){return frames.map(a=>new Uint8ClampedArray(a))}
