@@ -189,7 +189,7 @@ La passe de stabilisation consolide les six modules, corrige trois régressions 
 npm run verify:release
 ```
 
-La suite sans dépendance couvre **127 vérifications** : 15 compositeur, 25 timeline, 25 atlas ZIP, 31 catalogue, 11 interface catalogue, 9 éditeur raster et 11 pipeline complet simulé.
+La suite sans dépendance couvre **129 vérifications** : 15 compositeur, 25 timeline, 25 atlas ZIP, 31 catalogue, 11 interface catalogue, 9 éditeur raster et 13 pipeline complet simulé.
 
 Pour la **vraie validation Chromium**, installer Playwright facultativement :
 
