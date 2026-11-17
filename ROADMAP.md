@@ -97,7 +97,7 @@ Application HTML/CSS/JS sans build au début, modules ES lors de la croissance. 
 - [x] Correction d'IDs potentiellement dupliqués après réimport de projets contenant des IDs `asset-N`
 - [x] Correction du pinceau de dithering (anciennement une ligne continue)
 - [x] Résilience face à un cache local de bibliothèque contenant un JSON valide mais non-array
-- [x] Suite complète sans dépendances : 96 tests moteurs/catalogue + 11 tests UI catalogue + 9 tests éditeur + 13 tests de pipeline simulé
+- [x] Suite complète sans dépendances : 96 tests moteurs/catalogue + 11 tests UI catalogue + 10 tests éditeur + 13 tests de pipeline simulé
 - [x] Test Playwright facultatif ajouté pour Chromium réel (commande `npm run test:browser`)
 - [ ] **À exécuter sur poste avec dépôt local :** Chromium E2E (accès GitHub Pages bloqué dans l'environnement de validation)
 - [ ] Contrôler visuellement les sprites pixel art, les animations fluides et les téléchargements réels selon les navigateurs
