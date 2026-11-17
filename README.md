@@ -181,6 +181,28 @@ La commande `npm run verify:release` exécute les trois suites existantes et les
 
 **Dépôt NightVenture_Legacy non modifié.**
 
+## Stabilisation et tests de navigateur
+
+La passe de stabilisation consolide les six modules, corrige trois régressions concrètes (sélection de calque après chargement, pinceau dithering et cache de bibliothèque non-array) et corrige l'allocation des IDs de nouveaux assets après import. Les régressions disposent maintenant de tests automatiques.
+
+```sh
+npm run verify:release
+```
+
+La suite sans dépendance couvre **127 vérifications** : 15 compositeur, 25 timeline, 25 atlas ZIP, 31 catalogue, 11 interface catalogue, 9 éditeur raster et 11 pipeline complet simulé.
+
+Pour la **vraie validation Chromium**, installer Playwright facultativement :
+
+```sh
+npm install --no-save playwright
+npx playwright install chromium
+npm run test:browser
+```
+
+Le script ouvre le logiciel depuis un serveur HTTP local et vérifie le dessin, l'ajout d'une particule, l'émetteur, les keyframes, le téléchargement ZIP et les métadonnées NightVenture. Il ne touche ni au dépôt ni au runtime `NightVenture_Legacy`. Il n'a **pas encore pu être exécuté sur la version GitHub** depuis cet environnement, car les accès réseau à GitHub Pages y sont interdits ; ce test doit être lancé sur un poste disposant d'une copie locale du dépôt.
+
+Voir [STABILIZATION_REPORT.md](STABILIZATION_REPORT.md) pour l'audit et les limites de validation.
+
 ## Démarrer
 
 Ouvrir `index.html` dans un navigateur moderne. Aucun build ni serveur requis. Les données de la bibliothèque sont enregistrées **localement dans le navigateur** ; elles ne sont pas automatiquement synchronisées avec GitHub. Exportez vos projets JSON pour les conserver et les déplacer.
