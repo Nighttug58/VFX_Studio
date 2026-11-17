@@ -48,7 +48,7 @@ function message(s){$('compStatus').textContent=s}
 function dl(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.download=name;a.href=url;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)}
 function syncHeader(){for(const [key,value] of [['compName',composition.name],['compWidth',composition.width],['compHeight',composition.height],['compFps',composition.fps],['compDuration',composition.durationMs],['compSeed',composition.seed]])$(key).value=value}
 function safe(fn){try{fn()}catch(err){message('Erreur : '+err.message);alert(err.message)}}
-function assetInput(){const input=$('compAsset');input.replaceChildren();for(const a of composition.assets){const option=document.createElement('option');option.value=a.id;option.textContent=a.name;input.append(option)}}
+function assetInput(){const input=$('compAsset'),previous=input.value;input.replaceChildren();for(const a of composition.assets){const option=document.createElement('option');option.value=a.id;option.textContent=a.name;input.append(option)}if(composition.assets.some(a=>a.id===previous))input.value=previous;else if(composition.assets.length)input.value=composition.assets[composition.assets.length-1].id}
 function addAsset(name,p){const img=E.imageAsset(p),id='asset-'+assetCounter++;composition.assets.push({id,name:String(name||'Particule').slice(0,80),...img});assetInput();$('compAsset').value=id;return id}
 function getSource(){const api=window.VFXStudioBridge;if(!api)throw Error('Éditeur non initialisé');return api}
 $('compFromEditor').onclick=()=>safe(()=>{const api=getSource(),p=api.currentProject();addAsset(p.name||'Particule',p);message('Asset actuel ajouté');refresh()});
