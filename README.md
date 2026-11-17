@@ -91,6 +91,52 @@ node tests/composer-engine.test.js
 node tests/timeline-engine.test.js
 ```
 
+## Passe 5 — Export d'atlas de production
+
+Une nouvelle section **Export production** permet de regrouper toutes les animations de la composition dans un unique **ZIP** : `atlas.json` (schéma `vfx-studio-atlas`, version 3) et un ou plusieurs PNG transparents `vfx-atlas-00.png`, `vfx-atlas-01.png`, etc. L'éditeur et les anciens exports PNG + JSON restent disponibles.
+
+### Options
+
+| Paramètre | Comportement |
+| --- | --- |
+| Profil strict | Échelles entières (1–4×), rendu nearest-neighbor sans lissage |
+| Profil hybride | Échelle fractionnaire (0,5–4×), lissage lors du redimensionnement final |
+| Padding | 0 à 16 pixels transparents autour de chaque frame |
+| Extrusion | 0 à 16 pixels de duplication des bords et des coins |
+| Texture maximale | 256 / 512 / 1024 / 2048 / 4096 / 8192 px par côté |
+| Pivot | `pivotX`, `pivotY` normalisés entre 0 et 1, inclus aussi en pixels dans chaque frame |
+| Taille logique | Largeur/hauteur exprimées en unités de monde (`u`), **indépendantes** des pixels |
+| Cible | `generic` ou `nightventure`, avec identifiant de compétence ASCII facultatif |
+
+Le rectangle d'une frame dans `atlas.json` (`x,y,w,h`) désigne **uniquement le contenu utile**, sans padding ni extrusion. `cell` désigne la cellule complète incluant la marge. Les références `frames[].page` pointent vers `pages[].image`. `animations` contient le nom de chaque séquence, son déclencheur `trigger`, le mode `loop`, les FPS et les index des frames associées.
+
+### Exemple de manifeste (extrait illustratif)
+
+```json
+{
+  "schema": "vfx-studio-atlas",
+  "version": 3,
+  "render": { "profile": "strict", "padding": 2, "extrusion": 1, "nearestNeighbor": true },
+  "integration": { "target": "nightventure", "abilityId": "magic_elemental_nova", "triggerMode": "gameplay-events", "hitboxes": "external" },
+  "pages": [{ "index": 0, "image": "vfx-atlas-00.png", "width": 256, "height": 256 }],
+  "animations": { "impact": { "trigger": "impact", "loop": false, "fps": 24, "frameCount": 1, "frames": [0] } },
+  "frames": [{ "id": "impact/0000", "sequence": "impact", "page": 0, "x": 3, "y": 3, "w": 32, "h": 32, "pivot": { "x": 0.5, "y": 0.5 } }]
+}
+```
+
+Cet extrait sert à comprendre les champs et **ne constitue pas un atlas complet généré**. Les vrais exports incluent également les dimensions logiques, le seed, les métadonnées détaillées et toutes les frames. La génération réelle limite le nombre de pages PNG à 128, le nombre total de frames à 1800 et le budget cumulé des textures d'atlas à 64 Mpx pour éviter des allocations trop importantes. L'export refuse les sprites plus grands que la taille de texture maximale.
+
+**Intégration NightVenture :** la cible ajoute des métadonnées conformes à la convention du studio, mais le jeu doit encore être adapté pour charger le manifeste et émettre lui-même les événements (collision, pulsation, fin). Aucune hitbox ni aucun comportement de compétence ne sont fabriqués par l'exporteur.
+
+### Vérification
+
+```sh
+npm test
+npm run verify:release
+```
+
+Ces commandes exécutent les suites Node du compositeur, de la timeline et de l'exporteur sans dépendance npm. À ce stade, **65 assertions automatisées** sont passées en environnement JavaScript simulé, et le flux UI d'export ZIP a passé un test de simulation. Les tests visuels et end-to-end sur Chromium restent à effectuer.
+
 ## Démarrer
 
 Ouvrir `index.html` dans un navigateur moderne. Aucun build ni serveur requis. Les données de la bibliothèque sont enregistrées **localement dans le navigateur** ; elles ne sont pas automatiquement synchronisées avec GitHub. Exportez vos projets JSON pour les conserver et les déplacer.

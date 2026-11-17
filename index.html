@@ -35,7 +35,7 @@ footer{max-width:1500px;margin:auto;padding:5px 18px 20px;color:#91a0bb;font-siz
 </style>
 </head>
 <body>
-<header><div><h1>✦ VFX Studio <small>Pixel Art · Prototype 0.4</small></h1></div>
+<header><div><h1>✦ VFX Studio <small>Pixel Art · Prototype 0.5</small></h1></div>
 <div class="actions">
 <button id="newProject">Nouveau projet</button>
 <label class="upload">Importer PNG<input id="importPng" type="file" accept="image/png"></label>
@@ -123,4 +123,4 @@ $('exportLibrary').onclick=()=>download('vfx-library.json',new Blob([JSON.string
 $('importLibrary').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text());if(obj.schema!=='vfx-studio-library'||obj.version!==1||!Array.isArray(obj.assets))throw Error('Bibliothèque invalide');for(const a of obj.assets){if(!a||typeof a.name!=='string'||!a.project||a.project.schema!=='vfx-studio-project'||a.project.version!==1)throw Error('Asset invalide')}assets=assets.concat(obj.assets);persist();libraryView();notify('Bibliothèque importée')}catch(err){alert(err.message)}e.target.value=''};
 $('newProject').onclick=()=>{if(!confirm('Créer un nouveau projet ? Les changements non exportés seront perdus.'))return;stop();checkpoint();frames=[new Uint8ClampedArray(width*height*4)];selected=0;render()};
 syncDimensions();render();libraryView();
-</script><script src="advanced.js"></script><script src="composer-engine.js"></script><script src="timeline-engine.js"></script><script src="composer-ui.js"></script><script src="timeline-ui.js"></script></body></html>
+</script><script src="advanced.js"></script><script src="composer-engine.js"></script><script src="timeline-engine.js"></script><script src="composer-ui.js"></script><script src="timeline-ui.js"></script><script src="production-export.js"></script><script src="zip-store.js"></script><script src="production-ui.js"></script></body></html>
