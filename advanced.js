@@ -89,7 +89,7 @@ if(phase==='down'){dragStart=point;lastPoint=point;beforeStroke=clone(img);if(to
 if(tool==='select'){updateSelection(dragStart,point);show();if(phase==='up')note('Sélection : '+selection.w+' × '+selection.h);return}
 if(tool==='picker'||tool==='fill')return;
 if(tool==='line'||tool==='rect'||tool==='ellipse'||tool==='move'){img.set(beforeStroke);if(tool==='line')line(img,dragStart,point,color);if(tool==='rect')rectangle(img,dragStart,point,color);if(tool==='ellipse')ellipse(img,dragStart,point,color);if(tool==='move')moveRegion(img,point.x-dragStart.x,point.y-dragStart.y)}
-else if(tool==='dither'){line(img,lastPoint,point,color);for(let y=Math.min(lastPoint.y,point.y)-1;y<=Math.max(lastPoint.y,point.y)+1;y++)for(let x=Math.min(lastPoint.x,point.x)-1;x<=Math.max(lastPoint.x,point.x)+1;x++)if((x+y)%2===0&&inSelection(x,y))dot(img,x,y,color)}
+else if(tool==='dither'){let x=lastPoint.x,y=lastPoint.y,dx=Math.abs(point.x-x),dy=Math.abs(point.y-y),sx=x<point.x?1:-1,sy=y<point.y?1:-1,err=dx-dy;for(;;){if((x+y)%2===0)dot(img,x,y,color);if(x===point.x&&y===point.y)break;const twice=2*err;if(twice>-dy){err-=dy;x+=sx}if(twice<dx){err+=dx;y+=sy}}}
 else line(img,lastPoint,point,color);
 lastPoint=point;show()}
 canvas.addEventListener('pointerdown',e=>{if(playing){e.stopImmediatePropagation();return}e.stopImmediatePropagation();drawing=true;checkpoint();canvas.setPointerCapture(e.pointerId);paintAdvanced(e,'down')},true);
