@@ -45,10 +45,20 @@
 - [ ] Vérification visuelle automatisée en navigateur réel sur la branche main
 - [ ] Synchronisation gameplay directement dans NightVenture non incluse : le jeu doit émettre les événements lui-même
 
-## Passe 5 — Export production
-- Atlases multi-animations, padding/extrusion, limites de texture, pivots
-- Métadonnées JSON versionnées, validations et exports NightVenture
-- Profil de rendu strict pixel / hybride
+## Passe 5 — Export production (implémentée ; QA navigateur réel à compléter)
+- [x] Atlas multi-animations : timeline principale et séquences événementielles dans un seul manifeste JSON
+- [x] Répartition automatique des frames en pages PNG lorsque la capacité texture est dépassée
+- [x] Padding transparent et extrusion des pixels de bord, coins compris, sans changer le rectangle utile du sprite
+- [x] Pivot X/Y normalisé et en pixels pour chaque frame ; taille logique mondiale indépendante des pixels d'export
+- [x] Profils strict pixel (nearest-neighbor, échelle entière) et hybride (échelle fractionnaire, lissage optionnel)
+- [x] Contrôle des résolutions (256–8192), 1800 frames maximum et budget total de 64 Mpx
+- [x] JSON version 3 avec pages, frames, animations, déclencheurs, pivot, FPS, boucle, seed et tailles logiques
+- [x] Métadonnées cibles générique / NightVenture : identifiant de compétence ASCII et collisions explicitement externes
+- [x] Export ZIP sans dépendance contenant atlas.json et toutes les pages PNG
+- [x] Tests automatisés : 24 scénarios production + 15 compositeur + 25 timeline (64 verts) en runtime JS simulé
+- [x] Test de flux export UI simulé (configuration → planification → PNG → ZIP) réussi
+- [ ] Tests visuels et tests end-to-end dans un navigateur réel avant usage production
+- [ ] Adaptateur de chargement de ces atlas dans NightVenture (hors de cette passe)
 
 ## Passe 6 — Catalogue NightVenture
 - 37 modèles de compétences documentés depuis le cahier de formes
