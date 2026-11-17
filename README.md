@@ -54,6 +54,43 @@ La graine `seed`, le numéro de frame et les paramètres déterminent les mêmes
 - Les paramètres d'animation sont des courbes début/fin, pas encore une timeline de keyframes arbitraires.
 - Le rendu complet de nombreux grands sprites et particules peut être coûteux sur des appareils modestes.
 
+## Passe 4 — Timeline avancée et événements gameplay
+
+La section **Timeline avancée** (sous le compositeur VFX) permet de placer et modifier des keyframes sur un calque VFX sélectionné.
+
+### Keyframes et rendu pixel art
+
+Pistes disponibles : `x`, `y`, `rotation` (degrés), `scale` (multiplicateur), `alpha` (0 à 1) et `color` (teinte hexadécimale multiplicative). Chaque image clé contient un `timeMs`, une `value` et une interpolation de sortie `ease` : `linear`, `ease-in`, `ease-out`, `smooth` ou `step`.
+
+Les clés sont évaluées **à l'instant local de la séquence**. Position et taille sont arrondies aux pixels entiers ; une rotation est quantifiée au quart de tour le plus proche (pas de flou de rotation). La palette source et les calques d'assets restent éditables dans la première section du studio.
+
+### Séquences et événements
+
+Choisir la séquence du calque dans l'éditeur : `main` est la lecture normale ; `activation`, `projectile`, `impact`, `maintain`, `pulse`, `status` et `end` attendent un déclenchement explicite. Chaque séquence événementielle possède sa durée (50–10 000 ms, 600 frames max) et son mode `once` ou `loop`. Un événement contient `{type, atMs, x?, y?, id?}` : les coordonnées facultatives décalent l'effet.
+
+Exemple d'utilisation du moteur côté runtime, sans lier NightVenture :
+```js
+const event = { type: 'impact', atMs: 850, x: 12, y: -3, id: 'enemy-42' };
+const events = [event];
+const canvas = VFXTimeline.render(composition, 1000, undefined, events);
+// Pas d'événement = aucune animation de la séquence impact.
+```
+
+Plusieurs événements du même type peuvent coexister. Les séquences en boucle continuent tant que l'événement est conservé dans le tableau `events`; pour arrêter l'effet, retirer l'événement. Dans l'application, **Déclencher maintenant** et **Effacer les déclenchements** servent à tester ce comportement ; cet historique de tests n'est pas sauvegardé comme une règle de gameplay.
+
+### Exports
+
+**Exporter la séquence PNG + JSON** crée un atlas séparé pour la séquence choisie, avec `trigger`, `sequence`, `seed`, `loop`, FPS et coordonnées des frames. **Sauver composition** conserve les pistes, les sources et les paramètres des séquences dans le JSON éditable. L'export classique du compositeur représente la timeline `main` uniquement.
+
+**Limite importante :** produire les atlas ne branche pas automatiquement les collisions ou ticks réels de NightVenture ; ce sera une étape d'intégration distincte. Les tests JavaScript et le parcours UI simulé ont été exécutés, mais la vérification visuelle Chromium reste en attente.
+
+### Tests
+
+```sh
+node tests/composer-engine.test.js
+node tests/timeline-engine.test.js
+```
+
 ## Démarrer
 
 Ouvrir `index.html` dans un navigateur moderne. Aucun build ni serveur requis. Les données de la bibliothèque sont enregistrées **localement dans le navigateur** ; elles ne sont pas automatiquement synchronisées avec GitHub. Exportez vos projets JSON pour les conserver et les déplacer.
