@@ -70,7 +70,7 @@
 - [x] Cinq scénarios prioritaires : Pas du duelliste, Impact sismique, Forêt de pointes (3 fenêtres de 80 ms), Verdict du prédateur et Convergence élémentaire (4 pulsations)
 - [x] JSON de production avec références géométriques exactes, SVG maître, identifiant et révision de source ; événements et hitboxes restent externes au VFX
 - [x] Compatibilité des unités du monde et des pixels exportés ; cadre de référence indépendant
-- [x] 31 tests dédiés au catalogue et à ses cinq signatures ; ajout à la suite npm de validation de release
+- [x] 31 tests du catalogue + 11 contrôles d'intégration UI ; total de 96 assertions de moteur/catalogue (15 + 25 + 25 + 31), les 11 contrôles UI en supplément
 - [ ] Validation visuelle et interactive dans un véritable navigateur avant usage production
 - [ ] Dessin artistique final des 37 effets (les textures générées sont des placeholders pixel art éditables)
 - [ ] Adaptateur d'intégration directe dans NightVenture_Legacy (explicitement hors de cette passe)
