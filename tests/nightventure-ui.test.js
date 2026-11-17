@@ -22,7 +22,7 @@ const UI={loadComposition:c=>{global.VFXTimeline.validate(c);loaded=structuredCl
 const Bridge={loadProject:p=>{opened=structuredClone(p)},currentProject:()=>opened,library:()=>[]};
 global.window={NightVentureCatalog:C,VFXComposerUI:UI,VFXTimeline:{...global.VFXTimeline,render:()=>{previewCount++}},VFXStudioBridge:Bridge,VFXComposerEngine:global.VFXComposerEngine};
 require('../nightventure-catalog-ui.js');
-const app=window.NightVentureCatalogUI;
+const app=global.window.NightVentureCatalogUI;
 assert.equal(app.getSelected(),'sword_duelist_step');
 app.select('magic_elemental_nova');
 assert.equal(app.getSelected(),'magic_elemental_nova');
