@@ -51,11 +51,11 @@
 - [x] Padding transparent et extrusion des pixels de bord, coins compris, sans changer le rectangle utile du sprite
 - [x] Pivot X/Y normalisé et en pixels pour chaque frame ; taille logique mondiale indépendante des pixels d'export
 - [x] Profils strict pixel (nearest-neighbor, échelle entière) et hybride (échelle fractionnaire, lissage optionnel)
-- [x] Contrôle des résolutions (256–8192), 1800 frames maximum et budget total de 64 Mpx
+- [x] Contrôle des résolutions (256–8192), 1800 frames maximum, 128 pages PNG maximum et budget total de 64 Mpx
 - [x] JSON version 3 avec pages, frames, animations, déclencheurs, pivot, FPS, boucle, seed et tailles logiques
 - [x] Métadonnées cibles générique / NightVenture : identifiant de compétence ASCII et collisions explicitement externes
 - [x] Export ZIP sans dépendance contenant atlas.json et toutes les pages PNG
-- [x] Tests automatisés : 24 scénarios production + 15 compositeur + 25 timeline (64 verts) en runtime JS simulé
+- [x] Tests automatisés : 25 scénarios production + 15 compositeur + 25 timeline (65 verts) en runtime JS simulé
 - [x] Test de flux export UI simulé (configuration → planification → PNG → ZIP) réussi
 - [ ] Tests visuels et tests end-to-end dans un navigateur réel avant usage production
 - [ ] Adaptateur de chargement de ces atlas dans NightVenture (hors de cette passe)
