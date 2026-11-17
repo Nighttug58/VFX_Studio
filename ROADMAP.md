@@ -20,10 +20,17 @@
 - [ ] Vérification visuelle dans un navigateur réel et tests de régression complets (avant diffusion production)
 - [ ] Améliorations futures : sélection libre, déplacement multi-calques, glow multicouche, navigation clavier et opérations de palette indexée
 
-## Passe 3 — Compositeur VFX
-- Instances d'assets, calques VFX et rendu déterministe
-- Émetteurs : burst/continu, trajectoires, gravité, durée de vie, random seed
-- Courbes de paramètres et interpolation adaptée au pixel art
+## Passe 3 — Compositeur VFX (implémentée, QA navigateur à compléter)
+- [x] Instances d'assets raster issus de l'éditeur ou de la bibliothèque, copies embarquées dans les compositions
+- [x] Calques VFX indépendants, visibilité, ordre et paramètres par calque
+- [x] Émetteurs burst/continu, formes point/ligne/cercle, dispersion, vitesse, gravité, freinage et durée de vie
+- [x] Trajectoires linéaires, sinusoïdales et spiralées, paramètres amplitude/fréquence
+- [x] Graine (seed) fixée, calcul déterministe image par image et positions entières
+- [x] Animation de taille/opacité avec interpolation linéaire, ease-in, ease-out et smooth
+- [x] Prévisualisation frame par frame, lecture, PNG/JSON atlas et composition JSON rééditable
+- [x] Tests moteur automatisés sans dépendances, 15 scénarios réussis dans environnement JavaScript simulé
+- [ ] Tests end-to-end dans un vrai navigateur et capture visuelle avant livraison production
+- [ ] Évolutions réservées aux passes suivantes : keyframes multiples, événements synchronisés gameplay et atlas multi-tags
 
 ## Passe 4 — Timeline et événements
 - Keyframes position/rotation/échelle/alpha/couleur
