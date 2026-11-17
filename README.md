@@ -177,7 +177,7 @@ Le manifeste `atlas.json` v3 contient désormais `integration.catalog` avec la g
 
 ### Validation
 
-La commande `npm run verify:release` exécute les trois suites existantes et les 31 tests du catalogue : cardinalité des 37 fiches, géométries exactes, cinq scénarios, cohérence des templates, rétrocompatibilité JSON et planification des atlas. Les tests JavaScript et les essais d'interface simulés ne remplacent pas une validation visuelle dans Chromium.
+La commande `npm run verify:release` exécute les trois suites existantes et les 31 tests du catalogue : cardinalité des 37 fiches, géométries exactes, cinq scénarios, cohérence des templates, rétrocompatibilité JSON et planification des atlas. Les quatre suites couvrent 96 assertions (15 + 25 + 25 + 31) ; un test de simulation de l'interface ajoute 11 contrôles. Ces tests JavaScript simulés ne remplacent pas une validation visuelle dans Chromium.
 
 **Dépôt NightVenture_Legacy non modifié.**
 
