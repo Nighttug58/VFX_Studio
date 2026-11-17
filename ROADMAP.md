@@ -8,10 +8,17 @@
 - [x] Bibliothèque persistante locale et export/import du projet
 - [ ] Tests automatisés, gestion avancée de l'historique et raccourcis
 
-## Passe 2 — Éditeur d'assets
-- Calques raster, sélection, déplacement, formes géométriques, symétries, dithering
-- Palette par projet, remappage de couleurs, outline et glow pixelisé
-- Bibliothèque indexée (IndexedDB), tags, vignettes et contrôle de version des assets
+## Passe 2 — Éditeur d'assets (implémentée ; validation navigateur manuelle restante)
+- [x] Calques raster : création, duplication, suppression, visibilité, opacité, ordre et renommage
+- [x] Dessin et édition du calque actif : ligne, rectangle, ellipse, sélection rectangulaire et déplacement
+- [x] Symétrie X/Y et pinceau dithering
+- [x] Palette par projet, remappage des couleurs, contour 1 px et glow pixelisé simple
+- [x] Bibliothèque IndexedDB, tags, miniatures et versions successives des assets
+- [x] Projet JSON v2 (calques et palette), lecture des anciens projets v1
+- [x] Historique undo/redo tenant compte des calques ; les PNG et spritesheets restent composites
+- [x] Contrôles automatiques : analyse syntaxique + tests de fumée (9 scénarios)
+- [ ] Vérification visuelle dans un navigateur réel et tests de régression complets (avant diffusion production)
+- [ ] Améliorations futures : sélection libre, déplacement multi-calques, glow multicouche, navigation clavier et opérations de palette indexée
 
 ## Passe 3 — Compositeur VFX
 - Instances d'assets, calques VFX et rendu déterministe
