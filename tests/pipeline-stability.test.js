@@ -62,3 +62,4 @@ async function asyncChecks(){const c=sandbox.window.VFXComposerUI.getComposition
 get('exportSheet').click();check('source spritesheet maps PNG and JSON',()=>{assert.ok(downloads.some(x=>x.name==='vfx-spritesheet.json'))});
 console.log('SUCCESS '+passed+' full-pipeline smoke tests');}
 module.exports={asyncChecks};
+if(require.main===module)asyncChecks().catch(error=>{console.error(error);process.exitCode=1});
