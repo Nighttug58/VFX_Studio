@@ -12,13 +12,15 @@ test('padding/extrusion dimensions',()=>{const m=P.plan(fixture(),{padding:3,ext
 test('clear padding separated by extrusion',()=>{const m=P.plan(fixture(),{padding:2,extrusion:1});const f=m.frames[0];assert.equal(f.x-f.cell.x,3);assert.equal(f.y-f.cell.y,3)});
 test('pivot metadata normalized and pixel',()=>{const m=P.plan(fixture(),{pivotX:.25,pivotY:.75});assert.deepEqual(m.frames[0].pivot,{x:.25,y:.75});assert.deepEqual(m.frames[0].pivotPx,{x:4,y:9})});
 test('world size independent from raster scale',()=>{const m=P.plan(fixture(),{scale:2,logicalWidth:140,logicalHeight:70});assert.equal(m.frames[0].w,32);assert.equal(m.world.width,140);assert.equal(m.world.height,70)});
+test('NightVenture metadata keeps collisions external',()=>{const m=P.plan(fixture(),{target:'nightventure',abilityId:'magic_elemental_nova'});assert.equal(m.integration.target,'nightventure');assert.equal(m.integration.abilityId,'magic_elemental_nova');assert.equal(m.integration.hitboxes,'external')});
+test('reject unsafe ability identifiers',()=>assert.throws(()=>P.plan(fixture(),{target:'nightventure',abilityId:'../bad'})));
 test('legacy source accepted',()=>{const c=fixture();delete c.sequences;delete c.layers[1].sequence;assert.equal(Object.keys(P.plan(c).animations).length,1)});
 test('strict nearest-neighbor flag',()=>{const m=P.plan(fixture(),{profile:'strict',scale:2});assert.equal(m.render.nearestNeighbor,true)});
 test('hybrid permits fractional scaling',()=>{const m=P.plan(fixture(),{profile:'hybrid',scale:1.5});assert.equal(m.frames[0].w,24);assert.equal(m.render.nearestNeighbor,false)});
 test('strict rejects fractional scale',()=>assert.throws(()=>P.plan(fixture(),{profile:'strict',scale:1.5})));
 test('invalid pivot rejected',()=>assert.throws(()=>P.plan(fixture(),{pivotX:1.1})));
 test('invalid max texture rejected',()=>assert.throws(()=>P.plan(fixture(),{maxTexture:768})));
-test('oversize frame rejected',()=>assert.throws(()=>P.plan(fixture(),{scale:4,padding:16,extrusion:16,maxTexture:256,logicalWidth:-3})));
+test('oversize frame rejected',()=>{const c=fixture();c.width=128;c.height=128;assert.throws(()=>P.plan(c,{scale:4,padding:16,extrusion:16,maxTexture:256}))});
 test('multiple pages with no duplicate cells',()=>{const c=fixture();c.width=128;c.height=128;c.fps=20;c.durationMs=1000;c.sequences[0].durationMs=1000;const m=P.plan(c,{maxTexture:256,padding:2,extrusion:1});assert.ok(m.pages.length>1);const seen=new Set();for(const f of m.frames){const key=f.page+':'+f.x+':'+f.y;assert.ok(!seen.has(key));seen.add(key);assert.ok(f.x+f.w<=m.pages[f.page].width);assert.ok(f.y+f.h<=m.pages[f.page].height)}});
 test('texture pixel budget cap',()=>{const c=fixture();c.width=512;c.height=512;c.fps=120;c.durationMs=5000;delete c.sequences;c.layers.pop();assert.throws(()=>P.plan(c,{maxTexture:1024,padding:0,extrusion:0}),/Budget/)});
 test('atlas deterministic across two plans',()=>assert.deepEqual(P.plan(fixture()),P.plan(JSON.parse(JSON.stringify(fixture())))));
