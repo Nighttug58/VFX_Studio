@@ -32,10 +32,18 @@
 - [ ] Tests end-to-end dans un vrai navigateur et capture visuelle avant livraison production
 - [ ] Évolutions réservées aux passes suivantes : keyframes multiples, événements synchronisés gameplay et atlas multi-tags
 
-## Passe 4 — Timeline et événements
-- Keyframes position/rotation/échelle/alpha/couleur
-- Séquences activation, projectile, impact, maintien, pulsation, statut, fin
-- Déclenchement événementiel (collision, tick, expiration) distinct de la timeline
+## Passe 4 — Timeline et événements (implémentée ; QA navigateur réel à compléter)
+- [x] Pistes de keyframes par calque : position X/Y, rotation, échelle, alpha et teinte RGB
+- [x] Interpolations linéaire, ease-in, ease-out, smooth, step ; positions arrondies au pixel, rotations discrétisées par quarts de tour
+- [x] Séquences nommées : main, activation, projectile, impact, maintain, pulse, status, end
+- [x] Déclenchement par événement explicite avec horodatage et décalage X/Y indépendants du démarrage de la timeline
+- [x] Événements multiples / répétés ; séquences à lecture unique ou bouclées jusqu'au retrait du déclenchement
+- [x] Panneau d'édition des images clés et séquences ; prévisualisation des déclenchements
+- [x] Export PNG/JSON séparé par séquence, métadonnées trigger/seed/loop ; projet source incluant les keyframes
+- [x] Compatibilité des compositions des passes 1–3 sans keyframes ni séquences
+- [x] Tests moteur : 25 scénarios réussis dans un environnement JavaScript simulé et un scénario UI intégré (assets → clés → événement)
+- [ ] Vérification visuelle automatisée en navigateur réel sur la branche main
+- [ ] Synchronisation gameplay directement dans NightVenture non incluse : le jeu doit émettre les événements lui-même
 
 ## Passe 5 — Export production
 - Atlases multi-animations, padding/extrusion, limites de texture, pivots
