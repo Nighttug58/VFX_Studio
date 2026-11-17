@@ -18,6 +18,8 @@ panel.innerHTML=`
 <p class="status">Les unités logiques décrivent la taille de jeu indépendamment de la résolution exportée. Les pivots sont inclus dans les métadonnées de chaque frame.</p>
 </div>
 <div><h3>Validation et sortie</h3>
+<label>Format cible<select id="prodTarget"><option value="generic">Générique</option><option value="nightventure">NightVenture (métadonnées)</option></select></label>
+<label>ID de compétence (ASCII)<input id="prodAbility" type="text" maxlength="80" placeholder="magic_elemental_nova"></label>
 <div class="row"><button id="prodCheck">Vérifier l'atlas</button><button id="prodDownload" class="primary">Exporter le ZIP</button></div>
 <p id="prodReport" class="status" aria-live="polite">Vérifier pour afficher le nombre de frames et de pages.</p>
 <p class="status">ZIP : pages PNG transparentes + atlas.json version 3. Les séquences sont exportées indépendamment des collisions réelles.</p>
@@ -27,8 +29,8 @@ const style=document.createElement('style');style.textContent=`
 #productionPanel{max-width:1500px;margin:0 auto 14px}.productionGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
 .productionGrid>div{background:#151a29;border:1px solid #37445e;padding:12px;border-radius:9px}
 @media(max-width:850px){.productionGrid{grid-template-columns:1fr}}`;document.head.append(style);
-const inputs=['prodProfile','prodScale','prodMax','prodPad','prodExtrude','prodPivotX','prodPivotY','prodLogicalW','prodLogicalH'];
-function opts(){const optional=id=>$(id).value.trim()===''?null:Number($(id).value);return{profile:$('prodProfile').value,scale:Number($('prodScale').value),maxTexture:Number($('prodMax').value),padding:Number($('prodPad').value),extrusion:Number($('prodExtrude').value),pivotX:Number($('prodPivotX').value),pivotY:Number($('prodPivotY').value),logicalWidth:optional('prodLogicalW'),logicalHeight:optional('prodLogicalH')}}
+const inputs=['prodProfile','prodScale','prodMax','prodPad','prodExtrude','prodPivotX','prodPivotY','prodLogicalW','prodLogicalH','prodTarget','prodAbility'];
+function opts(){const optional=id=>$(id).value.trim()===''?null:Number($(id).value);return{profile:$('prodProfile').value,scale:Number($('prodScale').value),maxTexture:Number($('prodMax').value),padding:Number($('prodPad').value),extrusion:Number($('prodExtrude').value),pivotX:Number($('prodPivotX').value),pivotY:Number($('prodPivotY').value),logicalWidth:optional('prodLogicalW'),logicalHeight:optional('prodLogicalH'),target:$('prodTarget').value,abilityId:$('prodAbility').value.trim()}}
 function report(m){$('prodReport').textContent=m.frames.length+' frames · '+Object.keys(m.animations).length+' séquences · '+m.pages.length+' atlas PNG · '+(m.render.pixelBudget/1048576).toFixed(2)+' Mpx (budget max 64 Mpx)'}
 function check(){const m=P.plan(U.getComposition(),opts());report(m);return m}
 $('prodProfile').onchange=()=>{const hybrid=$('prodProfile').value==='hybrid';$('prodScale').min=hybrid?'.5':'1';$('prodScale').step=hybrid?'.25':'1';if(!hybrid)$('prodScale').value=Math.max(1,Math.round(Number($('prodScale').value)||1))};
