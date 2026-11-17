@@ -37,6 +37,7 @@ test('pencil paints a single opaque pixel',()=>{fire('pointerdown',4,4);fire('po
 test('undo restores pixel',()=>{get('undo').click();assert.equal(alpha(4,4),0)});
 test('redo restores pixel',()=>{get('redo').click();assert.equal(alpha(4,4),255)});
 test('dither never overpaints the excluded checkerboard cells',()=>{tool('dither');fire('pointerdown',0,10);fire('pointermove',9,10);fire('pointerup',9,10);for(let x=0;x<10;x++)assert.equal(alpha(x,10),x%2===0?255:0)});
+test('malformed non-array local asset cache is ignored',()=>{const extracted=base.match(/const assetStore=\(\)=>\{[\s\S]*?\};\s*let assets=/);assert.ok(extracted,'Asset cache constructor missing');const isolated=new Function('localStorage','STORAGE_KEY',extracted[0].replace(/\s*let assets=$/,'')+'return assetStore()');assert.deepEqual(isolated({getItem:()=>'{"oops":true}'},'test'),[])});
 test('extra layer can be added',()=>{get('addLayer').click();assert.equal(sandbox.window.__test.project().layers.length,2)});
 test('paint in top layer and toggle its visibility',()=>{tool('pencil');fire('pointerdown',2,2);fire('pointerup',2,2);assert.equal(alpha(2,2),255);const layerButtons=get('layers').children[0].children;layerButtons[0].click();assert.equal(alpha(2,2),0);layerButtons[0].click();assert.equal(alpha(2,2),255)});
 test('source project supports round-trip with layers',()=>{const p=sandbox.window.__test.project();sandbox.window.__test.loadProject(p);assert.deepEqual(JSON.parse(JSON.stringify(sandbox.window.__test.project().layerFrames)),JSON.parse(JSON.stringify(p.layerFrames)))});
