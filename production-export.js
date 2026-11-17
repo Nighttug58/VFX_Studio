@@ -2,7 +2,7 @@
 (function(root,factory){const api=factory(root.VFXTimeline);root.VFXProductionExport=api;if(typeof module==='object'&&module.exports)module.exports=api})(typeof globalThis!=='undefined'?globalThis:this,function(T){
 'use strict';
 if(!T)throw Error('Timeline engine required');
-const MAX_PIXELS=67108864,MAX_FRAMES=1800,integer=Number.isInteger;
+const MAX_PIXELS=67108864,MAX_FRAMES=1800,MAX_PAGES=128,integer=Number.isInteger;
 function between(x,a,b){return typeof x==='number'&&Number.isFinite(x)&&x>=a&&x<=b}
 function settings(user={}){
  const o={profile:'strict',scale:1,padding:2,extrusion:1,maxTexture:2048,pivotX:.5,pivotY:.5,logicalWidth:null,logicalHeight:null,target:'generic',abilityId:'',...user};
@@ -22,7 +22,7 @@ function plan(c,options={}){
  const columns=Math.floor(o.maxTexture/cellW),rows=Math.floor(o.maxTexture/cellH),capacity=columns*rows;
  let total=0;const durations=names.map(name=>{const count=T.frameCount(c,name);total+=count;return{name,count,trigger:name==='main'?'timeline':name,loop:name==='main'?false:(c.sequences||[]).find(s=>s.name===name)?.playback==='loop'}});
  if(total>MAX_FRAMES)throw Error('Limite '+MAX_FRAMES+' frames dépassée');
- const pages=[],pageCount=Math.ceil(total/capacity);let pixels=0;
+ const pages=[],pageCount=Math.ceil(total/capacity);if(pageCount>MAX_PAGES)throw Error('Trop de pages atlas (maximum '+MAX_PAGES+') : augmentez la taille texture');let pixels=0;
  for(let i=0;i<pageCount;i++){const count=Math.min(capacity,total-i*capacity),pcols=Math.min(columns,count),prows=Math.ceil(count/columns),pw=pcols*cellW,ph=prows*cellH;pixels+=pw*ph;if(pixels>MAX_PIXELS)throw Error('Budget atlas 64 Mpx dépassé');pages.push({index:i,image:'vfx-atlas-'+String(i).padStart(2,'0')+'.png',width:pw,height:ph,frameCount:count})}
  const animations={},frames=[];let serial=0;
  for(const item of durations){
@@ -54,5 +54,5 @@ function rasterize(c,layout,drawClip,makeCanvas){
 }
 function makeCanvas(w,h){const el=document.createElement('canvas');el.width=w;el.height=h;return el}
 function render(c,options={}){const manifest=plan(c,options);return{manifest,canvases:rasterize(c,manifest,(source,sequence,index)=>T.renderClip(source,sequence,index),makeCanvas)}}
-return{settings,clips,plan,rasterize,render,MAX_PIXELS,MAX_FRAMES};
+return{settings,clips,plan,rasterize,render,MAX_PIXELS,MAX_FRAMES,MAX_PAGES};
 });
