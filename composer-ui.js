@@ -80,7 +80,7 @@ syncHeader();refresh();
 window.VFXComposerUI={
 getComposition:()=>structuredClone(composition),
 loadComposition:c=>{(T||E).validate(c);composition=structuredClone(c);stop();frame=0;liveEvents=[];syncHeader();refresh()},
-getFrame:()=>frame,getSelectedLayer:()=>layerId,
+getFrame:()=>frame,getSelectedLayer:()=>layerId,getSelectedAssetId:()=>$('compAsset').value,
 editTimeline:callback=>{const candidate=structuredClone(composition);callback(candidate,layerId);(T||E).validate(candidate);composition=candidate;refresh()},
 setFrame:n=>{stop();frame=Math.max(0,Math.min(E.framesCount(composition)-1,Math.floor(n)));render()},
 trigger:(type,x=0,y=0)=>{if(!T||!T.EVENTS.includes(type))throw Error('Événement inconnu');liveEvents.push({type,atMs:frame*1000/composition.fps,x,y,id:String(liveEvents.length+1)});render()},
