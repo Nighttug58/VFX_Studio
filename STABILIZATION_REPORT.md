@@ -33,9 +33,9 @@ Les scripts Node existants et les nouveaux tests sont orchestrés par `npm run v
 | Export de production | 25 |
 | Catalogue des compétences | 31 |
 | Interface catalogue simulée | 11 |
-| Éditeur pixel art simulé | 9 |
+| Éditeur pixel art simulé | 10 |
 | Parcours complet simulé (dont ZIP et collisions d'IDs) | 13 |
-| **Total** | **129** |
+| **Total** | **130** |
 
 Les scénarios ont été évalués dans le runtime JavaScript de validation avec des substituts DOM/Canvas. Les tests de pipeline exercent les scripts réels du dépôt dans l'ordre de chargement HTML ; le ZIP produit dans le simulateur est inspecté, mais **le mock PNG ne prouve pas la qualité ni la validité d'un rendu PNG issu de Chromium**. La syntaxe JavaScript est vérifiée.
 
