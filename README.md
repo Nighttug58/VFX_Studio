@@ -137,6 +137,50 @@ npm run verify:release
 
 Ces commandes exécutent les suites Node du compositeur, de la timeline et de l'exporteur sans dépendance npm. À ce stade, **65 assertions automatisées** sont passées en environnement JavaScript simulé, et le flux UI d'export ZIP a passé un test de simulation. Les tests visuels et end-to-end sur Chromium restent à effectuer.
 
+## Passe 6 — Catalogue des 37 compétences NightVenture
+
+La section **Catalogue NightVenture** permet de rechercher les compétences par archétype ou race, d'afficher leurs fiches source et d'ouvrir directement un projet VFX personnalisable.
+
+### Provenance et types de données
+
+Référence : `NightVenture_Formes_VFX_37_competences.md` (source catalogue Monster_integration au commit `be619f8cf2d34bae2e6e21a0d80691df8138bd27`). Une copie structurée de toutes les fiches est disponible dans `data/nightventure-abilities.json` (source de vérité pour le studio). `nightventure-catalog-data.js` intègre les mêmes données pour fonctionner sans serveur lors de l'ouverture locale de `index.html`.
+
+- **Données de gameplay** : géométrie, rayon/angle/largeur/axe, déplacements, trajectoires de projectiles, timing et cibles. Elles restent en **unités logiques du monde** (`u`), indépendantes de la résolution PNG.
+- **Propositions artistiques** : dégradés, description de calques, motifs, halo et viewBox suggéré. Elles ne modifient jamais les collisions.
+- **Guide de géométrie** : tracé d'arc circulaire pour les secteurs, capsules arrondies à l'axe exact, disques en vue de dessus, lignes de trajectoire pour les projectiles, itinéraire pour le déplacement. Les supports et pouvoirs raciaux ne produisent aucune zone de dégâts.
+
+Les 37 fiches représentent 6 compétences pour chacun des cinq archétypes (Épéiste, Massier, Lancier, Archer, Mage) et 7 pouvoirs raciaux. Le catalogue fournit des assets de départ **pixel art 32 × 32** modifiables, **pas** les 37 VFX artistiques terminés ni les SVG maîtres dessinés à la main.
+
+### Créer et modifier un VFX
+
+1. Ouvrir le catalogue, filtrer une compétence et consulter la zone exacte de référence.
+2. Cliquer **Créer VFX éditable** : les calques décrits par la fiche sont préparés avec des textures pixel art, des séquences et des métadonnées de provenance.
+3. Pour retoucher les pixels : choisir une texture dans le compositeur, puis **Modifier l'asset sélectionné**. L'asset s'ouvre dans l'éditeur pixel art en haut de page.
+4. Après les retouches, cliquer **Réinjecter l'asset édité** : le compositeur reçoit les nouveaux pixels et frames. **Sauver composition** pour conserver les modifications.
+5. Dans l'export de production, la cible NightVenture et l'ID de compétence sont présélectionnés. Vérifier les dimensions logiques du monde avant d'exporter le ZIP ; l'application ne peut pas déduire automatiquement l'échelle finale de ton jeu.
+
+### Cinq scénarios de référence
+
+| Compétence | Géométrie et timing source | Démonstration d'événements |
+| --- | --- | --- |
+| Pas du duelliste | Déplacement de 72 u, pas de 220 ms, évitement au plus 160 ms, riposte au plus 1,5 s | Activation et statut seulement si les conditions réelles sont satisfaites |
+| Impact sismique | Secteur rayon 68 u, 96° ; préparation 420 ms, impact à 420 ms, récupération 300 ms | Impact distinct déclenché par le combat |
+| Forêt de pointes | Secteur rayon 142 u, 34° ; estocs à 120 / 360 / 600 ms, fenêtre 80 ms | Trois événements de pulsation de 80 ms |
+| Verdict du prédateur | Projectile rayon de collision 6 u, portée 390 u, jusqu'à 488 u en pleine charge ; charge 200–1 000 ms | Départ et impact indépendants ; démo non prescriptive pour la collision |
+| Convergence élémentaire | Disque rayon 70 u, préparation 300 ms, zone 3 s, quatre pulsations aux offsets 0 / 750 / 1500 / 2250 ms | Zone persistante et quatre pulses événementiels |
+
+Ces scénarios de **prévisualisation** illustrent les instants du cahier. Ils ne créent pas de calcul de dégâts ni de scripts combat. Les autres compétences sont personnalisables via leurs calques et leurs champs source, sans inventer de séquences de gameplay absentes du cahier.
+
+### Export NightVenture
+
+Le manifeste `atlas.json` v3 contient désormais `integration.catalog` avec la géométrie source, l'identifiant de compétence, le SVG maître, la révision de provenance et les calques de référence, **uniquement lorsque le projet vient du catalogue et que la cible NightVenture est sélectionnée**. `integration.hitboxes` reste `external` : les collisions appartiennent au jeu. Les contours de référence ne sont **pas** dessinés dans les PNG exportés.
+
+### Validation
+
+La commande `npm run verify:release` exécute les trois suites existantes et les 31 tests du catalogue : cardinalité des 37 fiches, géométries exactes, cinq scénarios, cohérence des templates, rétrocompatibilité JSON et planification des atlas. Les quatre suites couvrent 96 assertions (15 + 25 + 25 + 31) ; un test de simulation de l'interface ajoute 11 contrôles. Ces tests JavaScript simulés ne remplacent pas une validation visuelle dans Chromium.
+
+**Dépôt NightVenture_Legacy non modifié.**
+
 ## Démarrer
 
 Ouvrir `index.html` dans un navigateur moderne. Aucun build ni serveur requis. Les données de la bibliothèque sont enregistrées **localement dans le navigateur** ; elles ne sont pas automatiquement synchronisées avec GitHub. Exportez vos projets JSON pour les conserver et les déplacer.

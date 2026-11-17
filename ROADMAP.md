@@ -60,11 +60,20 @@
 - [ ] Tests visuels et tests end-to-end dans un navigateur réel avant usage production
 - [ ] Adaptateur de chargement de ces atlas dans NightVenture (hors de cette passe)
 
-## Passe 6 — Catalogue NightVenture
-- 37 modèles de compétences documentés depuis le cahier de formes
-- Géométries exactes : secteurs, capsules, disques, projectiles et auras
-- Cinq cas de validation : Pas du duelliste, Impact sismique, Forêt de pointes, Verdict du prédateur, Convergence élémentaire
-- Conservation des unités logiques indépendamment des pixels d'export
+## Passe 6 — Catalogue NightVenture (implémentée ; QA navigateur réel restante)
+- [x] Intégration des 37 fiches source : 30 compétences des 5 archétypes et 7 pouvoirs raciaux, avec textes, calques, SVG de référence et révision du cahier
+- [x] Géométrie réelle conservée séparément des visuels : 6 secteurs à arc circulaire, 3 capsules à bouts arrondis, 6 disques, 5 projectiles, 1 déplacement et 16 soutiens personnels sans hitbox
+- [x] Paramètres numériques de gameplay (rayons, angles, axes, dimensions, portée, collisions, vitesse, délais) conservés sans extrapolation ; indicateur des propositions purement artistiques
+- [x] Catalogue HTML : filtres par archétype, recherche, fiches détaillées, calques, guide géométrique distinct de l'image exportée
+- [x] Compositions VFX personnalisables à partir de chaque fiche : assets pixel art de départ modifiables, calques, séquences et métadonnées source
+- [x] Aller-retour d'un asset du compositeur vers l'éditeur pixel art et réinjection des pixels modifiés
+- [x] Cinq scénarios prioritaires : Pas du duelliste, Impact sismique, Forêt de pointes (3 fenêtres de 80 ms), Verdict du prédateur et Convergence élémentaire (4 pulsations)
+- [x] JSON de production avec références géométriques exactes, SVG maître, identifiant et révision de source ; événements et hitboxes restent externes au VFX
+- [x] Compatibilité des unités du monde et des pixels exportés ; cadre de référence indépendant
+- [x] 31 tests du catalogue + 11 contrôles d'intégration UI ; total de 96 assertions de moteur/catalogue (15 + 25 + 25 + 31), les 11 contrôles UI en supplément
+- [ ] Validation visuelle et interactive dans un véritable navigateur avant usage production
+- [ ] Dessin artistique final des 37 effets (les textures générées sont des placeholders pixel art éditables)
+- [ ] Adaptateur d'intégration directe dans NightVenture_Legacy (explicitement hors de cette passe)
 
 ## Architecture proposée
 Application HTML/CSS/JS sans build au début, modules ES lors de la croissance. Canvas 2D avec raster pixel exact. Projet JSON éditable, bibliothèques sauvegardées localement, exports PNG + JSON. Pas d'écriture implicite dans le dépôt du jeu.
