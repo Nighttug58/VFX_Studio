@@ -5,8 +5,9 @@ if(!T)throw Error('Timeline engine required');
 const MAX_PIXELS=67108864,MAX_FRAMES=1800,integer=Number.isInteger;
 function between(x,a,b){return typeof x==='number'&&Number.isFinite(x)&&x>=a&&x<=b}
 function settings(user={}){
- const o={profile:'strict',scale:1,padding:2,extrusion:1,maxTexture:2048,pivotX:.5,pivotY:.5,logicalWidth:null,logicalHeight:null,...user};
+ const o={profile:'strict',scale:1,padding:2,extrusion:1,maxTexture:2048,pivotX:.5,pivotY:.5,logicalWidth:null,logicalHeight:null,target:'generic',abilityId:'',...user};
  if(!['strict','hybrid'].includes(o.profile))throw Error('Profil invalide');
+ if(!['generic','nightventure'].includes(o.target)||typeof o.abilityId!=='string'||(o.abilityId!==''&&!/^[a-z0-9_]{1,80}$/.test(o.abilityId)))throw Error('Cible ou identifiant de compétence invalide');
  if(!between(o.scale,.5,4)||(o.profile==='strict'&&!integer(o.scale)))throw Error('Mode strict : échelle entière 1–4');
  for(const k of ['padding','extrusion'])if(!integer(o[k])||o[k]<0||o[k]>16)throw Error(k+' hors limites');
  if(![256,512,1024,2048,4096,8192].includes(o.maxTexture))throw Error('Limite texture invalide');
@@ -31,7 +32,7 @@ function plan(c,options={}){
      refs.push(serial)}
    animations[item.name]={trigger:item.trigger,loop:!!item.loop,fps:c.fps,frameCount:item.count,frames:refs}
  }
- return{schema:'vfx-studio-atlas',version:3,generator:'VFX_Studio',name:c.name,source:{width:c.width,height:c.height,seed:c.seed,fps:c.fps},render:{profile:o.profile,scale:o.scale,nearestNeighbor:o.profile==='strict',padding:pad,extrusion:ext,maxTexture:o.maxTexture,alpha:'straight',pixelBudget:pixels},world:{width:o.logicalWidth??c.width,height:o.logicalHeight??c.height,units:'logical',pivot:{x:o.pivotX,y:o.pivotY}},pages,animations,frames}
+ return{schema:'vfx-studio-atlas',version:3,generator:'VFX_Studio',name:c.name,source:{width:c.width,height:c.height,seed:c.seed,fps:c.fps},render:{profile:o.profile,scale:o.scale,nearestNeighbor:o.profile==='strict',padding:pad,extrusion:ext,maxTexture:o.maxTexture,alpha:'straight',pixelBudget:pixels},world:{width:o.logicalWidth??c.width,height:o.logicalHeight??c.height,units:'logical',pivot:{x:o.pivotX,y:o.pivotY}},integration:{target:o.target,abilityId:o.target==='nightventure'?o.abilityId:null,triggerMode:'gameplay-events',hitboxes:'external',coordinateSpace:'world-2d',orientation:'source-positive-x'},pages,animations,frames}
 }
 function rasterize(c,layout,drawClip,makeCanvas){
  const opts=layout.render,pages=layout.pages.map(p=>{const can=makeCanvas(p.width,p.height);const g=can.getContext('2d');g.clearRect(0,0,p.width,p.height);g.imageSmoothingEnabled=opts.profile!=='strict';return can});
