@@ -6,7 +6,7 @@ if(!E||!host)throw Error('Composer engine missing');
 let composition=E.makeComposition(), playing=false, timer=null, frame=0, layerId=0, assetCounter=1, playCanvas=document.createElement('canvas'), liveEvents=[];
 const $=id=>document.getElementById(id), html=document.createElement('section');html.id='composer';
 html.innerHTML=`
-<div class="composerTitle"><h2>Compositeur VFX · Passe 3</h2><span id="compStatus">Nouveau VFX</span></div>
+<div class="composerTitle"><h2>Compositeur VFX · Passe 4</h2><span id="compStatus">Nouveau VFX</span></div>
 <div class="composerGrid"><div class="compLeft">
 <label>Nom du VFX<input id="compName" type="text" maxlength="80" value="Nouveau VFX"></label>
 <div class="row"><label>Largeur<input id="compWidth" type="number" min="1" max="512" value="128"></label><label>Hauteur<input id="compHeight" type="number" min="1" max="512" value="128"></label></div>
