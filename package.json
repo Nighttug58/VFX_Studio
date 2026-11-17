@@ -4,7 +4,7 @@
   "private": true,
   "description": "Pixel art VFX editor with deterministic spritesheet/atlas exports",
   "scripts": {
-    "test": "node tests/composer-engine.test.js && node tests/timeline-engine.test.js && node tests/production-export.test.js && node tests/nightventure-catalog.test.js",
+    "test": "node tests/composer-engine.test.js && node tests/timeline-engine.test.js && node tests/production-export.test.js && node tests/nightventure-catalog.test.js && node tests/nightventure-ui.test.js",
     "verify:release": "npm test"
   },
   "engines": {
