@@ -84,3 +84,23 @@ Application HTML/CSS/JS sans build au début, modules ES lors de la croissance. 
 - Export/import JSON sans perte de frames ni de pivot
 - Une frame pixel-art source = une cellule d'atlas de dimensions explicites
 - Absence de dépendances externes nécessaires pour lancer l'éditeur
+
+## Stabilisation transversale — six passes (novembre 2026)
+
+- [x] Passe 1 : régression crayon, undo/redo, export de projet et frames
+- [x] Passe 2 : calques, visibilité, historique, dithering alterné sans surpeinture
+- [x] Passe 3 : création d'émetteur depuis un sprite et vérification du déterminisme
+- [x] Passe 4 : deux keyframes interpolées et conservation des événements
+- [x] Passe 5 : export ZIP et validation du manifeste v3 et de ses PNG référencés
+- [x] Passe 6 : chargement d'une compétence, édition de particule et géométrie inchangée
+- [x] Correction du calque sélectionné qui pouvait pointer vers l'ancien projet après chargement d'une composition
+- [x] Correction d'IDs potentiellement dupliqués après réimport de projets contenant des IDs `asset-N`
+- [x] Correction du pinceau de dithering (anciennement une ligne continue)
+- [x] Résilience face à un cache local de bibliothèque contenant un JSON valide mais non-array
+- [x] Suite complète sans dépendances : 96 tests moteurs/catalogue + 11 tests UI catalogue + 9 tests éditeur + 11 tests de pipeline simulé
+- [x] Test Playwright facultatif ajouté pour Chromium réel (commande `npm run test:browser`)
+- [ ] **À exécuter sur poste avec dépôt local :** Chromium E2E (accès GitHub Pages bloqué dans l'environnement de validation)
+- [ ] Contrôler visuellement les sprites pixel art, les animations fluides et les téléchargements réels selon les navigateurs
+- [ ] Tests de charge : centaines de particules, textures 4K/8K et stockage local saturé
+
+Voir `STABILIZATION_REPORT.md` pour les résultats, limites et prochaines recommandations.
